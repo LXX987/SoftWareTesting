@@ -33,7 +33,7 @@ public class WebSocketServer {
      */
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String username) {
-        System.out.println("当前用户名=="+username);
+        System.out.println("当前用户名==" + username);
         sessionMap.put(username, session);
         // 发送登录人员消息给所有的客户端
         sendAllMessage(setUserList());
@@ -57,11 +57,11 @@ public class WebSocketServer {
     public void onMessage(String message) {
 //        解析消息为java对象
         Message msg = JSON.parseObject(message, Message.class);
-        if(StringUtils.isEmpty(msg.getTo())){
+        if (StringUtils.isEmpty(msg.getTo())) {
             sendAllMessage(JSON.toJSONString(msg));
-        }else{
+        } else {
             Session sessionTo = sessionMap.get(msg.getTo());
-            sendMessage(message,sessionTo);
+            sendMessage(message, sessionTo);
         }
     }
 
@@ -71,9 +71,9 @@ public class WebSocketServer {
         error.printStackTrace();
     }
 
-    private String setUserList(){
+    private String setUserList() {
         ArrayList<String> list = new ArrayList<>();
-        for(String key:sessionMap.keySet()){
+        for (String key:sessionMap.keySet()) {
             list.add(key);
         }
         Message message = new Message();

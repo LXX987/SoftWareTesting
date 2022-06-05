@@ -1,4 +1,5 @@
 package com.huaqi.zhanxin.service;
+
 import com.huaqi.zhanxin.entity.SocketMsg;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -33,17 +34,17 @@ public class WebSocketService {
      */
     @OnOpen
     public void onOpen(Session session, @PathParam("nickname") String nickname) {
-        Map<String,Object> message=new HashMap<String, Object>();
+        Map<String, Object> message  =new HashMap<String, Object>();
         this.session = session;
         this.nickname = nickname;
         map.put(session.getId(), session);
-        webSocketSet.add(this);//加入set中
+        webSocketSet.add(this); //加入set中
         System.out.println("有新连接加入:" + nickname + ",当前在线人数为" + webSocketSet.size());
         //this.session.getAsyncRemote().sendText("恭喜" + nickname + "成功连接上WebSocket(其频道号：" + session.getId() + ")-->当前在线人数为：" + webSocketSet.size());
-        message.put("type",0); //消息类型，0-连接成功，1-用户消息
-        message.put("people",webSocketSet.size()); //在线人数
-        message.put("name",nickname); //昵称
-        message.put("aisle",session.getId()); //频道号
+        message.put("type", 0); //消息类型，0-连接成功，1-用户消息
+        message.put("people", webSocketSet.size()); //在线人数
+        message.put("name", nickname); //昵称
+        message.put("aisle", session.getId()); //频道号
         this.session.getAsyncRemote().sendText(new Gson().toJson(message));
     }
 
@@ -73,16 +74,16 @@ public class WebSocketService {
             socketMsg = objectMapper.readValue(message, SocketMsg.class);
             if (socketMsg.getType() == 1) {
                 //单聊.需要找到发送者和接受者.
-                socketMsg.setFromUser(session.getId());//发送者.
+                socketMsg.setFromUser(session.getId()); //发送者.
                 Session fromSession = map.get(socketMsg.getFromUser());
                 Session toSession = map.get(socketMsg.getToUser());
                 //发送给接受者.
                 if (toSession != null) {
                     //发送给发送者.
-                    Map<String,Object> m=new HashMap<String, Object>();
-                    m.put("type",1);
-                    m.put("name",nickname);
-                    m.put("msg",socketMsg.getMsg());
+                    Map<String, Object> m  = new HashMap<String, Object>();
+                    m.put("type", 1);
+                    m.put("name", nickname);
+                    m.put("msg", socketMsg.getMsg());
                     fromSession.getAsyncRemote().sendText(new Gson().toJson(m));
                     toSession.getAsyncRemote().sendText(new Gson().toJson(m));
                 } else {
@@ -116,8 +117,7 @@ public class WebSocketService {
      */
     public void broadcast(String message) {
         for (WebSocketService item : webSocketSet) {
-            item.session.getAsyncRemote().sendText(message);//异步发送消息.
+            item.session.getAsyncRemote().sendText(message); //异步发送消息.
         }
     }
-
 }

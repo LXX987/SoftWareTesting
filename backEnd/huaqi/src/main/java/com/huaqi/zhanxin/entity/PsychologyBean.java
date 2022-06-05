@@ -1,6 +1,5 @@
 package com.huaqi.zhanxin.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -9,16 +8,78 @@ import java.sql.Timestamp;
 @Data
 @ApiModel(value = "psychology对象")
 public class PsychologyBean {
+
+    /**
+     * 用户ID
+     * @param: []
+     * @return: java.util.Integer
+     */
     private Integer userID;
+    /**
+     * 用户测试时间按
+     * @param: []
+     * @return: java.util.date
+     */
     private Timestamp testTime;
+
+    /**
+     * 用户测试分数
+     * @param: []
+     * @return: java.util.Integer
+     */
     private Integer testScore;
+
+    /**
+     * 用户开放性分数
+     * @param: []
+     * @return: java.util.Integer
+     */
     private Integer openness;
+
+    /**
+     * 用户严谨性分数
+     * @param: []
+     * @return: java.util.Integer
+     */
     private Integer conscientiousness;
+
+    /**
+     * 用户外倾性分数
+     * @param: []
+     * @return: java.util.Integer
+     */
     private Integer extraversion;
+
+    /**
+     * 用户宜人性分数
+     * @param: []
+     * @return: java.util.Integer
+     */
     private Integer agreeableness;
+
+    /**
+     * 用户神经质分数
+     * @param: []
+     * @return: java.util.Integer
+     */
     private Integer neuroticism;
 
-    public PsychologyBean(Integer userID, Timestamp testTime, Integer testScore, Integer openness, Integer conscientiousness, Integer extraversion, Integer agreeableness, Integer neuroticism) {
+    /**
+     * 用户资产证明分数
+     * @param: userID
+     * @param: testTime,
+     * @param: testScore,
+     * @param: openness,
+     * @param: conscientiousness,
+     * @param: extraversion,
+     * @param: agreeableness,
+     * @param: neuroticism
+     *
+     * @return: java.util.Integer
+     */
+    public PsychologyBean(Integer userID, Timestamp testTime, Integer testScore, Integer openness,
+                          Integer conscientiousness, Integer extraversion, Integer agreeableness,
+                          Integer neuroticism) {
         this.userID = userID;
         this.testTime = testTime;
         this.testScore = testScore;
