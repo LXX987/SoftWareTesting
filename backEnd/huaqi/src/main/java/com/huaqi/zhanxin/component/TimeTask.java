@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -19,11 +20,11 @@ import java.util.List;
 
 @Component
 public class TimeTask {
-    @Autowired
+    @Resource
     private UserService userService;
-    @Autowired
+    @Resource
     private CreditService creditService;
-    @Autowired
+    @Resource
     private CreditController creditController;
 
     @Scheduled(cron = "0 */2 * * * ?")
