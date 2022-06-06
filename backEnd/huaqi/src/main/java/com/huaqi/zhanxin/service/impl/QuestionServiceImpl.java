@@ -18,12 +18,12 @@ public class QuestionServiceImpl implements QuestionService {
     @Resource
     QuestionMapper questionMapper;
 
-    public List<JSONObject> getQuestionList(Integer video_id)
-    {
+    public List<JSONObject> getQuestionList(Integer video_id) {
         List<JSONObject> jsonObjects = new ArrayList<>();
         List<Question> questionList = questionMapper.selectAllByVideoId(video_id);
-        if(questionList.isEmpty())
+        if (questionList.isEmpty()) {
             return null;
+        }
         for (var question:questionList) {
             JSONObject jsonObject = new JSONObject(question);
             jsonObjects.add(jsonObject);
@@ -31,25 +31,30 @@ public class QuestionServiceImpl implements QuestionService {
         return jsonObjects;
     }
 
-    public Integer addQuestion(Integer video_id, String question_text, String question_answer)
-    {
+    public Integer addQuestion(Integer video_id, String question_text, String question_answer) {
         Integer count = questionMapper.insert(video_id, question_text, question_answer);
-        if(count == 1)
+        if (count == 1) {
             return 1;
-        else return -1;
+        } else {
+            return -1;
+        }
     }
 
     public Integer submitQuestion(Integer userID, Integer video_id, Integer watch, Integer questionScore) {
         Integer count = questionMapper.insertAnswer(userID,video_id,watch,questionScore);
-        if(count == 1)
+        if (count == 1) {
             return 1;
-        else return -1;
+        } else {
+            return -1;
+        }
     }
 
     @Override
     public List<VideoScore> getVideoScore(Integer userId) {
         List<VideoScore> scoreList = questionMapper.selectAllByUserId(userId);
-        if(scoreList.isEmpty()) return null;
+        if (scoreList.isEmpty()) {
+            return null;
+        }
         return scoreList;
     }
 

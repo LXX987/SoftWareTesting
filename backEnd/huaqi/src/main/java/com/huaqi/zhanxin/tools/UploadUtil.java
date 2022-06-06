@@ -16,8 +16,9 @@ import java.util.Random;
 public class UploadUtil {
 
     public static String upload(MultipartFile file, String uploadFilePath, HttpServletRequest request) throws Exception {
-        if (file.isEmpty())
+        if (file.isEmpty()) {
             return null;
+        }
         String uploadUrl = "";
         String fileName;
         // 获得当前时间
@@ -48,16 +49,20 @@ public class UploadUtil {
         File targetFile = new File(uploadFilePath + directory + fileName);
         file.transferTo(targetFile);
         try {
-            Image image = ImageIO.read(targetFile);// 通过ImageReader来解码这个file并返回一个BufferedImage对象
-            if (image != null)                         // 如果找不到合适的ImageReader,或者在解析过程中报错,我们可以认为这不是图片文件
+            Image image = ImageIO.read(targetFile); // 通过ImageReader来解码这个file并返回一个BufferedImage对象
+            if (image != null) { // 如果找不到合适的ImageReader,或者在解析过程中报错,我们可以认为这不是图片文件
                 fileType = "images";
-            else fileType = "videos";
+            } else {
+                fileType = "videos";
+            }
         } catch (IOException e) {
             fileType = "videos";
         }
-        if(!Objects.equals(uploadFilePath.split("/")[3], fileType))
+        if (!Objects.equals(uploadFilePath.split("/")[3], fileType)) {
             return null;
-        uploadUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/upload/" + fileType + "/" + directory + fileName;
+        }
+        uploadUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() +
+                "/upload/" + fileType + "/" + directory + fileName;
         return uploadUrl;
     }
 }

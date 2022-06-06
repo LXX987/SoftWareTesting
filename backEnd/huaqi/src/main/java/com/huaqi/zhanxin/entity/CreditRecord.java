@@ -1,7 +1,6 @@
 package com.huaqi.zhanxin.entity;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.models.auth.In;
 import lombok.Data;
 
 @Data
@@ -19,7 +18,11 @@ public class CreditRecord {
     private Integer numberOfDependents;
     private Integer numberOfTime60To89DaysPastDueNotWorse;
 
-    public CreditRecord(Integer userID, Double debtRatio, Integer numberRealEstateLoansOrLines, Integer numberOfOpenCreditLinesAndLoans, Integer numberOfTime30To59DaysPastDueNotWorse, Double revolvingUtilizationOfUnsecuredLines, Integer seriousDlqin2yrs, Double monthlyIncome, Integer numberOfTime90DaysLate, Integer numberOfDependents, Integer numberOfTime60To89DaysPastDueNotWorse) {
+    public CreditRecord(Integer userID, Double debtRatio, Integer numberRealEstateLoansOrLines,
+                        Integer numberOfOpenCreditLinesAndLoans, Integer numberOfTime30To59DaysPastDueNotWorse,
+                        Double revolvingUtilizationOfUnsecuredLines, Integer seriousDlqin2yrs, Double monthlyIncome,
+                        Integer numberOfTime90DaysLate, Integer numberOfDependents,
+                        Integer numberOfTime60To89DaysPastDueNotWorse) {
         this.userID = userID;
         this.debtRatio = debtRatio;
         this.numberRealEstateLoansOrLines = numberRealEstateLoansOrLines;

@@ -1,7 +1,6 @@
 package com.huaqi.zhanxin.mapper;
 
 import com.huaqi.zhanxin.entity.UserBean;
-import com.huaqi.zhanxin.entity.UserInfo;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

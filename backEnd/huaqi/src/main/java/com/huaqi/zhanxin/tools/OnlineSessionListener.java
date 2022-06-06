@@ -13,16 +13,14 @@ public class OnlineSessionListener implements HttpSessionListener {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     public static Integer concurrent_user_count = 0;
     @Override
-    public void sessionCreated(HttpSessionEvent httpSessionEvent)
-    {
+    public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         logger.info("新用户上线了");
         concurrent_user_count++;
         httpSessionEvent.getSession().getServletContext().setAttribute("count", concurrent_user_count);
     }
 
     @Override
-    public void sessionDestroyed(HttpSessionEvent httpSessionEvent)
-    {
+    public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         logger.info("用户下线了");
         concurrent_user_count--;
         httpSessionEvent.getSession().getServletContext().setAttribute("count", concurrent_user_count);

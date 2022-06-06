@@ -4,8 +4,6 @@ import java.sql.Timestamp;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
 @ApiModel(value = "user对象")
 public class UserBean {

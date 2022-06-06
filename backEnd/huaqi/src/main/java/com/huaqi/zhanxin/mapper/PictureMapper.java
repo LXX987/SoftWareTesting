@@ -15,22 +15,22 @@ public interface PictureMapper {
     @Select("select sum(certicficate_id) from Asset_Verification")
     Integer getCurNumber();
 
-    @Select("select * from Asset_Verification where user_id =#{userId} and file_name = 'house' ")
+    @Select("select * from Asset_Verification where user_id = #{userId} and file_name = 'house' ")
     Picture getHouse(@Param("userId") int userId);
 
-    @Select("select * from Asset_Verification where user_id =#{userId} and certificate = 'crime' ")
+    @Select("select * from Asset_Verification where user_id = #{userId} and certificate = 'crime' ")
     List<Picture> getCrime(@Param("userId") int userId);
 
-    @Select("select * from Asset_Verification where user_id =#{userId} and certificate = 'blood' ")
+    @Select("select * from Asset_Verification where user_id = #{userId} and certificate = 'blood' ")
     List<Picture> getBlood(@Param("userId") int userId);
 
-    @Select("select * from Asset_Verification where user_id =#{userId} and certificate = 'volunteer' ")
+    @Select("select * from Asset_Verification where user_id = #{userId} and certificate = 'volunteer' ")
     List<Picture> getVolunteer(@Param("userId") int userId);
 
-    @Select("select * from Asset_Verification where user_id =#{userId} and certificate = 'donation' ")
+    @Select("select * from Asset_Verification where user_id = #{userId} and certificate = 'donation' ")
     List<Picture> getDonation(@Param("userId") int userId);
 
-    @Select("select * from Asset_Verification where user_id =#{userId} and certificate = 'phoneCost' ")
+    @Select("select * from Asset_Verification where user_id = #{userId} and certificate = 'phoneCost' ")
     List<Picture> getPhoneCost(@Param("userId") int userId);
 
     // 获取未审核信息列表

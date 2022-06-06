@@ -15,7 +15,8 @@ public class Credit {
     private Integer socialScore;
 
 
-    public Credit(Integer userID, Integer totalScore, Integer identityScore, Integer assetScore, Integer creditScore, Integer behaviorScore, Integer socialScore) {
+    public Credit(Integer userID, Integer totalScore, Integer identityScore, Integer assetScore, Integer creditScore,
+                  Integer behaviorScore, Integer socialScore) {
         this.userID = userID;
         this.totalScore = totalScore;
         this.identityScore = identityScore;

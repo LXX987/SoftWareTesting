@@ -8,15 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 public class GetInformationFromRequest {
     @Autowired
     private int userId;
-    public GetInformationFromRequest(HttpServletRequest request){
+    public GetInformationFromRequest(HttpServletRequest request) {
 
 
         String token = request.getHeader("token");
         DecodedJWT verify = JwtConfig.verify(token);
-        userId=Integer.valueOf(verify.getClaim("userId").asString());
+        userId = Integer.valueOf(verify.getClaim("userId").asString());
 
     }
-    public int getUserId(){
+    public int getUserId() {
         return userId;
     }
 }

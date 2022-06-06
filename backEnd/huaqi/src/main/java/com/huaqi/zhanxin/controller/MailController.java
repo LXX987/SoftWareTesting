@@ -15,15 +15,15 @@ public class MailController {
         @Autowired
         private MailService mailService;
         @CrossOrigin
-        @ApiOperation(value="邮箱")
+        @ApiOperation(value = "邮箱")
         @PostMapping(value = "/mail")
         @ResponseBody
-        public String getCheckCode(String email){
+        public String getCheckCode(String email) {
             String checkCode = String.valueOf(new Random().nextInt(899999) + 100000);
-            String message = "hi!!!你的注册验证码是："+checkCode;
+            String message = "hi!!!你的注册验证码是：" + checkCode;
             try {
                 mailService.sendSimpleMail(email, "注册验证码", message);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 return "发送失败";
             }

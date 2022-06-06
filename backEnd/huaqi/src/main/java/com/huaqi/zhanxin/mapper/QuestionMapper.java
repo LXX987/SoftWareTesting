@@ -17,10 +17,12 @@ public interface QuestionMapper {
     List<Question> selectAllByVideoId(@Param("id") Integer id);
 
     @Insert("insert into Question(video_id,question_text,question_answer) values(#{id},#{text},#{answer})")
-    Integer insert(@Param("id") Integer video_id, @Param("text") String question_text, @Param("answer") String question_answer);
+    Integer insert(@Param("id") Integer video_id, @Param("text") String question_text,
+                   @Param("answer") String question_answer);
 
     @Insert("insert into Video_Watch(user_id,video_id,watch,question_score) values(#{id},#{videoId},#{watch},#{questionScore})")
-    Integer insertAnswer(@Param("id") Integer userID,@Param("videoId") Integer video_id,@Param("watch") Integer watch,@Param("questionScore") Integer questionScore);
+    Integer insertAnswer(@Param("id") Integer userID, @Param("videoId") Integer video_id, @Param("watch") Integer watch,
+                         @Param("questionScore") Integer questionScore);
 
     @Select("select * from Video_Watch where user_id=#{id}")
     List<VideoScore> selectAllByUserId(@Param("id") Integer id);

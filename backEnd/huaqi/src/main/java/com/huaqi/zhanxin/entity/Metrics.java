@@ -5,11 +5,10 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Data
 @ApiModel(value = "视频")
-public class Metrics implements Serializable{
+public class Metrics implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

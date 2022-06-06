@@ -1,7 +1,6 @@
 package com.huaqi.zhanxin.service;
 
 import com.huaqi.zhanxin.entity.BankSearch;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

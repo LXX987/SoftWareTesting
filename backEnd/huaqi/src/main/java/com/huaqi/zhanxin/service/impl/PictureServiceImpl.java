@@ -2,21 +2,14 @@ package com.huaqi.zhanxin.service.impl;
 
 import com.huaqi.zhanxin.entity.*;
 import com.huaqi.zhanxin.mapper.PictureMapper;
-import com.huaqi.zhanxin.mapper.UserMapper;
 import com.huaqi.zhanxin.service.PictureService;
-import com.huaqi.zhanxin.service.UserService;
 import com.huaqi.zhanxin.tools.UploadUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -35,9 +28,10 @@ public class PictureServiceImpl implements PictureService {
             e.printStackTrace();
             return "-1";
         }
-        if(pic_url == null)
+        if (pic_url == null) {
             return "-2";
-        pictureMapper.fileInsert(userID, 0,picType, pic_url);
+        }
+        pictureMapper.fileInsert(userID, 0, picType, pic_url);
         return pic_url;
 //        String os = System.getProperty("os.name");
 //        File fileRealPath;   //文件存放地址
@@ -86,7 +80,7 @@ public class PictureServiceImpl implements PictureService {
     }
     @Override
     public int getCurNumber() {
-        if(pictureMapper.getCurNumber()==null) {
+        if (pictureMapper.getCurNumber() == null) {
             return 0;
         } else {
             return pictureMapper.getCurNumber();

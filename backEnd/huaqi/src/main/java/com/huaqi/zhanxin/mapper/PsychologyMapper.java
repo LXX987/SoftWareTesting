@@ -13,14 +13,14 @@ public interface PsychologyMapper {
     @Select("select * from Psychology")
     List<PsychologyBean> psychologyList();
 
-    @Select("select * from Psychology where user_id=#{userId}")
+    @Select("select * from Psychology where user_id = #{userId}")
     List<PsychologyBean> psychologyHistoryList(@Param("userId") int userId);
 
-    @Insert("insert into Psychology(user_id,test_time,test_score,openness,conscientiousness,extraversion,"
+    @Insert("insert into Psychology(user_id,test_time,test_score,openness,conscientiousness, extraversion,"
             +
             "agreeableness,neuroticism) values(#{user_id},#{test_time},#{test_score},#{openness},"
             +
-            "#{conscientiousness},#{extraversion},#{agreeableness},#{neuroticism})")
+            "#{conscientiousness},#{extraversion}, #{agreeableness}, #{neuroticism})")
     int recordScore(@Param("user_id") int userId, @Param("test_time") Timestamp testTime,
                     @Param("test_score") int testScore, @Param("openness") int openness,
                     @Param("conscientiousness") int conscientiousness, @Param("extraversion") int extraversion,

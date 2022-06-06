@@ -47,13 +47,13 @@ public class RestControllerHelper {
 
     /**
      * toJsonMap
-     * @return
+     * @return java.util.Integer
      */
-    public Map<String,Object> toJsonMap() {
-        Map<String,Object> map = new HashMap<>(3);
-        map.put(RESULT_CODE,this.code);
-        map.put(RESULT_MSG,this.msg);
-        map.put(RESULT_DATA,this.data);
+    public Map<String, Object> toJsonMap() {
+        Map<String, Object> map = new HashMap<>(3);
+        map.put(RESULT_CODE, this.code);
+        map.put(RESULT_MSG, this.msg);
+        map.put(RESULT_DATA, this.data);
         return map;
     }
     public Integer getCode() {
