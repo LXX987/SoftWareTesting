@@ -23,12 +23,12 @@ public class InviteCodeServiceImpl implements InviteCodeService {
 
 
     @Override
-    public int insertCode(int userID, String inviteCode,Timestamp submitTime) {
-        return inviteCodeMapper.insertCode(userID,inviteCode,submitTime);
+    public int insertCode(int userID, String inviteCode, Timestamp submitTime) {
+        return inviteCodeMapper.insertCode(userID, inviteCode, submitTime);
     }
 
     @Override
     public int insertFriend(int userID, String invitedCode, Timestamp submitTime) {
-        return inviteCodeMapper.insertFriend(userID,invitedCode,submitTime);
+        return inviteCodeMapper.insertFriend(userID, invitedCode, submitTime);
     }
 }

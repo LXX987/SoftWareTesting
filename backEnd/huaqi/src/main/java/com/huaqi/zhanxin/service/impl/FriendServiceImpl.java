@@ -15,23 +15,21 @@ public class FriendServiceImpl implements FriendService {
     FriendMapper friendMapper;
 
     @Override
-    public List<JSONObject> getFriendList(Integer id, Integer pageNum, Integer pageSize)
-    {
+    public List<JSONObject> getFriendList(Integer id, Integer pageNum, Integer pageSize) {
         List<JSONObject> jsonObjects = friendMapper.selectAllFriendsById(id, pageNum, pageSize);
-        if(jsonObjects.isEmpty())
+        if (jsonObjects.isEmpty()) {
             return null;
+        }
         return jsonObjects;
     }
 
     @Override
-    public String getMyCode(Integer id)
-    {
+    public String getMyCode(Integer id) {
         return friendMapper.selectOneCodeById(id);
     }
 
     @Override
-    public Integer deleteFriend(Integer user_id, Integer friend_id)
-    {
+    public Integer deleteFriend(Integer user_id, Integer friend_id) {
         String invite_code = friendMapper.selectOneCodeById(user_id);
         return friendMapper.deleteFriend(friend_id, invite_code);
     }

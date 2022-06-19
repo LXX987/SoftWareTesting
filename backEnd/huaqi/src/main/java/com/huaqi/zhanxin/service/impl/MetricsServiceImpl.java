@@ -29,22 +29,21 @@ public class MetricsServiceImpl implements MetricsService {
     MetricsMapper metricsMapper;
 
     @Override
-    public JSONObject displaySystemInfo()
-    {
+    public JSONObject displaySystemInfo() {
         return getSystemInfo();
     }
 
     @Override
-    @Scheduled(fixedDelay = 30*60*1000)
-    public void logSystemInfo()
-    {
+    @Scheduled(fixedDelay = 30 * 60 * 1000)
+    public void logSystemInfo() {
         JSONObject jsonObject = getSystemInfo();
-        metricsMapper.logSystemInfo((Integer) jsonObject.get("cpuCore"), (String) jsonObject.get("cpuUsage"), (String) jsonObject.get("memory"), (String) jsonObject.get("memoryUsage"), OnlineSessionListener.concurrent_user_count, LocalDateTime.now());
+        metricsMapper.logSystemInfo((Integer) jsonObject.get("cpuCore"), (String) jsonObject.get("cpuUsage"),
+                (String) jsonObject.get("memory"), (String) jsonObject.get("memoryUsage"),
+                OnlineSessionListener.concurrent_user_count, LocalDateTime.now());
     }
 
     @Override
-    public List<JSONObject> getHistory()
-    {
+    public List<JSONObject> getHistory() {
         return metricsMapper.getHistory();
     }
 
@@ -62,12 +61,15 @@ public class MetricsServiceImpl implements MetricsService {
         long totalByte = memory.getTotal();
         long acaliableByte = memory.getAvailable();
 
-        log.info("CPU总数 = {},CPU利用率 ={}", processor.getLogicalProcessorCount(), new DecimalFormat("#.##%").format((100.0D - freeCPU)/100.0D));
-        log.info("内存大小 = {},内存使用率 ={}", formatByte(totalByte), new DecimalFormat("#.##%").format((totalByte - acaliableByte) * 1.0 / totalByte));
+        log.info("CPU总数 = {},CPU利用率 ={}", processor.getLogicalProcessorCount(),
+                new DecimalFormat("#.##%").format((100.0D - freeCPU) / 100.0D));
+        log.info("内存大小 = {},内存使用率 ={}", formatByte(totalByte),
+                new DecimalFormat("#.##%").format((totalByte - acaliableByte) * 1.0 / totalByte));
         jsonObject.put("cpuCore", processor.getLogicalProcessorCount());
-        jsonObject.put("cpuUsage", new DecimalFormat("#.##%").format((100.0D - freeCPU)/100.0D));
+        jsonObject.put("cpuUsage", new DecimalFormat("#.##%").format((100.0D - freeCPU) / 100.0D));
         jsonObject.put("memory", formatByte(totalByte));
-        jsonObject.put("memoryUsage", new DecimalFormat("#.##%").format((totalByte - acaliableByte) * 1.0 / totalByte));
+        jsonObject.put("memoryUsage", new DecimalFormat("#.##%").format((totalByte - acaliableByte)
+                * 1.0 / totalByte));
         return jsonObject;
     }
 

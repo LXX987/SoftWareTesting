@@ -37,15 +37,16 @@ public class CreditController {
         Credit credit = creditService.selectScore(userID);
 
         // 计算并更新总分
-        int score = calculateCredit(credit.getIdentityScore(),credit.getAssetScore(),credit.getCreditScore(),credit.getBehaviorScore(),credit.getSocialScore());
-        creditService.updateTotalScore(score,userID);
+        int score = calculateCredit(credit.getIdentityScore(), credit.getAssetScore(), credit.getCreditScore(),
+                credit.getBehaviorScore(), credit.getSocialScore());
+        creditService.updateTotalScore(score, userID);
 
         //从history_score中获取当前分数，并将分数返回到前端
         HistoryScore currentCredit = userService.selectUserCredit(userID);
         map.put("total_score", currentCredit.getTotalScore());
         map.put("identity_score", currentCredit.getIdentityScore());
         map.put("asset_score", currentCredit.getAssetScore());
-        map.put("credit_score",currentCredit.getCreditScore());
+        map.put("credit_score", currentCredit.getCreditScore());
         map.put("behavior_score", currentCredit.getBehaviorScore());
         map.put("social_score", currentCredit.getSocialScore());
         map.put("lastUpdateTime", currentCredit.getHistoryTime());
@@ -58,9 +59,10 @@ public class CreditController {
     /**
     总分更新
      */
-    public int calculateCredit(int identity_score, int asset_score, int credit_score, int behavior_score, int social_score){
-        double totalScore = identity_score+asset_score + credit_score + behavior_score + social_score;
-        int score = (int)totalScore;
+    public int calculateCredit(int identity_score, int asset_score, int credit_score, int behavior_score,
+                               int social_score) {
+        double totalScore = identity_score + asset_score + credit_score + behavior_score + social_score;
+        int score = (int) totalScore;
         return score;
     }
 
@@ -83,30 +85,30 @@ public class CreditController {
         int fairCount = 0;
         int poorCount = 0;
         int veryBadCount = 0;
-        for(int i = 0; i< creditList.size(); i++) {
+        for (int i = 0; i < creditList.size(); i++) {
             int score = creditList.get(i).getTotalScore();
             totalScoreSum += score;
-            if(minCredit > score) {
+            if (minCredit > score) {
                 minCredit = score;
             }
-            if(maxCredit < score) {
+            if (maxCredit < score) {
                 maxCredit = score;
             }
-            if(score < 150) {
+            if (score < 150) {
                 veryBadCount += 1;
-            } else if(score < 220) {
+            } else if (score < 220) {
                 poorCount += 1;
-            } else if(score < 290) {
+            } else if (score < 290) {
                 fairCount += 1;
-            } else if(score < 360) {
+            } else if (score < 360) {
                 goodCount += 1;
-            } else if(score < 430) {
+            } else if (score < 430) {
                 veryGoodCount += 1;
             } else {
                 excellentCount += 1;
             }
         }
-        totalScoreSum = totalScoreSum/creditList.size();
+        totalScoreSum = totalScoreSum / creditList.size();
         map.put("totalCount", creditList.size());
         map.put("totalScoreSum", totalScoreSum);
         map.put("excellentCount", excellentCount);

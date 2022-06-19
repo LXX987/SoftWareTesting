@@ -53,29 +53,29 @@ public class UserController {
 
 
     @RequestMapping("show")
-    public List<UserBean> userList(){
+    public List<UserBean> userList() {
         return userService.userList();
     }
 
     @ApiOperation(value = "验证身份")
     @RequestMapping(value = "verify", method = RequestMethod.GET)
-    public Result<?> verifyIdentity(@RequestParam String userEmail, @RequestParam String userPassword)
-    {
+    public Result<?> verifyIdentity(@RequestParam String userEmail, @RequestParam String userPassword) {
         UserBean user = userService.login(userEmail);
-        if(user==null)
+        if (user == null) {
             return Result.error("404", "用户不存在");
-        else {
-            if(userPassword.equals(user.getUserPwd()) && user.getUserType().equals(1))
-            {
+        } else {
+            if (userPassword.equals(user.getUserPwd()) && user.getUserType().equals(1)) {
                 return Result.success();
+            } else {
+                return Result.error("403", "验证失败");
             }
-            else return Result.error("403", "验证失败");
         }
     }
 
     @ApiOperation(value = "登录")
     @PostMapping("login")
-    public Map<String, Object> login(String userEmail, String userPassword, Integer userType, HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> login(String userEmail, String userPassword, Integer userType,
+                                     HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>();
         if (StringUtils.isEmpty(userEmail)) {
             map.put("msg", "关键数据缺失");
@@ -95,12 +95,13 @@ public class UserController {
                     String token = JwtConfig.getToken(payload);
                     map.put("msg", "登录成功");
                     map.put("token", token);
-                    HttpSession session = request.getSession();//session的创建
+                    HttpSession session = request.getSession(); //session的创建
                     session.setAttribute("userEmail", userEmail);
                     session.setMaxInactiveInterval(15 * 60);
-                    Cookie cookie = new Cookie("JSESSIONID", URLEncoder.encode(session.getId(), StandardCharsets.UTF_8));
+                    Cookie cookie = new Cookie("JSESSIONID", URLEncoder.encode(session.getId(),
+                            StandardCharsets.UTF_8));
                     cookie.setPath(request.getContextPath());
-                    cookie.setMaxAge(48 * 60 * 60);//设置cookie有效期为2天
+                    cookie.setMaxAge(48 * 60 * 60); //设置cookie有效期为2天
                     response.addCookie(cookie);
                 } catch (Exception e) {
                     map.put("msg", e.getMessage());
@@ -126,8 +127,7 @@ public class UserController {
         map.put("userEmail", user.getUserEmail());
         map.put("userAvatar", user.getUserAvatar());
         UserInfo userInfo=userService.getInfo(userID);
-        if(userInfo != null)
-        {
+        if (userInfo != null) {
             map.put("occupation", userInfo.getOccupation());
             map.put("annual_income", userInfo.getAnnualIncome());
             map.put("working_years", userInfo.getWorkingYears());
@@ -136,52 +136,52 @@ public class UserController {
             map.put("IDcard", userInfo.getIDcard());
             map.put("phone", userInfo.getPhone());
             // 判断成年
-            String Idcard=userInfo.getIDcard();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//定义格式，不显示毫秒
-            Timestamp now = new Timestamp(System.currentTimeMillis());//获取系统当前时间
+            String Idcard = userInfo.getIDcard();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //定义格式，不显示毫秒
+            Timestamp now = new Timestamp(System.currentTimeMillis()); //获取系统当前时间
             String nowTime = df.format(now);
-            nowTime = nowTime.substring(0,4) + nowTime.substring(5, 7) + nowTime.substring(8, 10);
+            nowTime = nowTime.substring(0, 4) + nowTime.substring(5, 7) + nowTime.substring(8, 10);
             int age = (Integer.parseInt(nowTime) - Integer.parseInt(Idcard.substring(6, 14))) / 10000;
-            if(age<18) {
+            if (age < 18) {
                 map.put("adult", "未成年");
             } else {
                 map.put("adult", "成年");
             }
             //计算身份得分并更新
             if (userInfo.getAuthentication()) {
-                int indentityScore = calculateIdentity(userInfo.getOccupation(), userInfo.getAnnualIncome(), userInfo.getWorkingYears());
+                int indentityScore = calculateIdentity(userInfo.getOccupation(), userInfo.getAnnualIncome(),
+                        userInfo.getWorkingYears());
                 creditService.updateIdentityScore(indentityScore, userID);
             }
         }
         helper.setMsg("Success");
         helper.setData(map);
         return helper.toJsonMap();
-
     }
 
     /**
      * 计算身份得分的函数
      */
-    public int calculateIdentity(int occupation,float annual_income,int working_years){
+    public int calculateIdentity(int occupation, float annual_income, int working_years) {
         //  归一化
         int identityScore = 0;
         double k1 = 0.007;
         double k2 = 0.001;
         double k3 = 20;
-        double occupationScore,incomeScore,workingScore;
-        occupationScore=k1*(occupation-5000);
-        if(annual_income>=100000){
-            incomeScore=100;
-        }else{
-            incomeScore=k2*annual_income;
+        double occupationScore, incomeScore, workingScore;
+        occupationScore = k1 * (occupation - 5000);
+        if (annual_income >= 100000) {
+            incomeScore = 100;
+        } else {
+            incomeScore = k2 * annual_income;
         }
-        if(working_years>=5){
+        if (working_years >= 5) {
             workingScore = 100;
-        }else{
-            workingScore=k3*working_years;
+        } else {
+            workingScore = k3 * working_years;
         }
-        double identityScore1 = (0.4*occupationScore + 0.12*incomeScore + 0.48*workingScore)*5*0.15;
-        identityScore=(int)identityScore1;
+        double identityScore1 = (0.4 * occupationScore + 0.12 * incomeScore + 0.48 * workingScore) * 5 * 0.15;
+        identityScore = (int) identityScore1;
         return identityScore;
     }
 
@@ -204,7 +204,8 @@ public class UserController {
 
     @ApiOperation(value = "更新身份信息")
     @PostMapping("updateUserInfo")
-    public Map<String, Object> resetName(HttpServletRequest request, String userName, String userEmail,int occupation, float annualIncome, int workingYears, String phone) {
+    public Map<String, Object> resetName(HttpServletRequest request, String userName, String userEmail,int occupation,
+                                         float annualIncome, int workingYears, String phone) {
 
         GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
         int userID = getInfo.getUserId();
@@ -213,21 +214,21 @@ public class UserController {
 
         Map<String, Object> map = new HashMap<>();
         int resultInfo;
-        if( userService.getInfo(userID)==null) {
-            resultInfo=userService.insertInfo(occupation,annualIncome,workingYears,userID,phone);
+        if( userService.getInfo(userID) == null) {
+            resultInfo = userService.insertInfo(occupation, annualIncome, workingYears, userID, phone);
         } else {
-            resultInfo=userService.updateInfo(userID, occupation,annualIncome,workingYears,phone);
+            resultInfo = userService.updateInfo(userID, occupation, annualIncome, workingYears, phone);
         }
-        int resultName=userService.updateName(userID, userName, userEmail);
+        int resultName = userService.updateName(userID, userName, userEmail);
 
-        if(resultName==1&&resultInfo==1) {
+        if(resultName == 1 && resultInfo == 1) {
             map.put("msg", "修改成功");
             //计算身份得分并更新
             UserInfo userInfo=userService.getInfo(userID);
             if(userInfo.getAuthentication())
             {
-                int indentityScore = calculateIdentity(occupation,annualIncome,workingYears);
-                creditService.updateIdentityScore(indentityScore,userID);
+                int indentityScore = calculateIdentity(occupation, annualIncome, workingYears);
+                creditService.updateIdentityScore(indentityScore, userID);
             }
         } else {
             map.put("msg", "修改失败，未查找到该账号数据");
@@ -243,25 +244,28 @@ public class UserController {
     public Map<String, Object> register(String userEmail, String userPwd, int userType){
         Map<String, Object> map = new HashMap<>();
 
-        if (StringUtils.isEmpty(userEmail)||StringUtils.isEmpty(userPwd)) {
+        if (StringUtils.isEmpty(userEmail) || StringUtils.isEmpty(userPwd)) {
             map.put("msg", "关键数据缺失");
             return map;
         }
         UserBean user = userService.login(userEmail);
         if (user == null) {
             LocalDateTime localDateTime = LocalDateTime.now();
-            userService.register(userEmail,userPwd,userType,localDateTime);
+            userService.register(userEmail, userPwd, userType, localDateTime);
             map.put("msg", "注册成功");
             helper.setMsg("Success");
             helper.setData(map);
             // 向分数表插入数据
             user = userService.login(userEmail);
             int user_id = user.getUserID();
-            creditService.insertScore(user_id,0,0,0,0,0,0);
+            creditService.insertScore(user_id, 0, 0, 0, 0, 0, 0);
 
             userService.insertNewInfo(user_id); //用户信息表插入数据
             userService.insertNewReputation(user_id); //用户信誉表插入数据
-            userService.insertCreditRecord(user_id,0,0,0,0,0,0,0,0,0,0);
+            userService.insertCreditRecord(user_id, 0, 0,
+                    0,0,0,
+                    0,0,0,0,
+                    0);
 
             // 向用户历史分数表中插入记录
             Timestamp currentTIme = new Timestamp(System.currentTimeMillis());
@@ -296,20 +300,20 @@ public class UserController {
 
         String result = get(appCode, url, params);
         //String result ="{\"msg\":\"成功\",\"success\":true,\"code\":200,\"data\":{\"result\":0,\"order_no\":\"654645355292741231\",\"desc\":\"一致\",\"sex\":\"女\",\"birthday\":\"20001118\",\"address\":\"甘肃省兰州市七里河区\"}}";
-        System.out.println("result:"+result);
+        System.out.println("result:" + result);
         int resultNum;
-        if(result==null){
-            resultNum=3;
+        if(result == null){
+            resultNum = 3;
         } else {
             resultNum = Integer.parseInt(result);
         }
         Map<String, Object> map = new HashMap<>();
-        if(resultNum==0) {
-            boolean authentication=false;
-            authentication=true;
+        if(resultNum == 0) {
+            boolean authentication = false;
+            authentication = true;
             map.put("result", "实名认证成功");
-            int sqlResult=userService.updateAuthentication(userID,authentication,IDtype,IDcard);
-            if(sqlResult==1) {
+            int sqlResult = userService.updateAuthentication(userID, authentication, IDtype, IDcard);
+            if(sqlResult == 1) {
                 UserInfo userInfo=userService.getInfo(userID);
                 if(userInfo.getAuthentication())
                 {

@@ -29,16 +29,16 @@ public class MetricsController {
     public Result<?> displaySystemInfo(HttpServletRequest request) {
         JSONObject jsonObject = metricsService.displaySystemInfo();
         Integer count = (Integer) request.getServletContext().getAttribute("count");
-        if (count == null)
+        if (count == null) {
             count = 0;
+        }
         jsonObject.put("onlineUsers", count);
         return Result.success(jsonObject);
     }
 
     @ApiOperation(value = "系统历史信息")
     @RequestMapping(value = "/metrics/history", method = RequestMethod.GET)
-    public Result<?> getHistory()
-    {
+    public Result<?> getHistory() {
         List<JSONObject> jsonObjects = metricsService.getHistory();
         return Result.success(jsonObjects);
     }

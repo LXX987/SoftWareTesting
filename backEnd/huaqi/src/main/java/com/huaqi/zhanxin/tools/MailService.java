@@ -19,7 +19,7 @@ public class MailService {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public void sendSimpleMail(String to,String title,String content){
+    public void sendSimpleMail(String to, String title, String content) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
         message.setTo(to);

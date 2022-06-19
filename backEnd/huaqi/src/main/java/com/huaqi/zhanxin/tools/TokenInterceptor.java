@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class TokenInterceptor implements HandlerInterceptor {
     @Override
-    public boolean preHandle(HttpServletRequest request,HttpServletResponse response,Object handler)throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)throws Exception {
         if (request.getMethod().equals("OPTIONS")) {
             //在拦截器中设置允许跨域
             response.setHeader("Access-Control-Allow-Origin", "*");

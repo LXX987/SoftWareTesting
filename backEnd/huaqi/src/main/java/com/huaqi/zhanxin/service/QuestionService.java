@@ -11,7 +11,7 @@ public interface QuestionService {
 
     Integer addQuestion(Integer video_id, String question_text, String question_answer);
 
-    Integer submitQuestion(Integer userID, Integer video_id,Integer watch,Integer questionScore);
+    Integer submitQuestion(Integer userID, Integer video_id, Integer watch, Integer questionScore);
 
     List<VideoScore> getVideoScore(Integer userId);
 }

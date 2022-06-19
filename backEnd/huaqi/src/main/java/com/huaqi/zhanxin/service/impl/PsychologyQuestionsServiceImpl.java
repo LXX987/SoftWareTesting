@@ -1,7 +1,5 @@
 package com.huaqi.zhanxin.service.impl;
 
-
-import com.huaqi.zhanxin.entity.PsychologyBean;
 import com.huaqi.zhanxin.entity.PsychologyQuestionsBean;
 import com.huaqi.zhanxin.mapper.PsychologyQuestionsMapper;
 import com.huaqi.zhanxin.service.PsychologyQuestionsService;
@@ -16,7 +14,7 @@ public class PsychologyQuestionsServiceImpl implements PsychologyQuestionsServic
     PsychologyQuestionsMapper psychologyQuestionsMapper;
 
     @Override
-    public List<PsychologyQuestionsBean> psychologyQuestionsList(){
+    public List<PsychologyQuestionsBean> psychologyQuestionsList() {
         return psychologyQuestionsMapper.psychologyQuestionsList();
     }
 }

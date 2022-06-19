@@ -2,23 +2,15 @@ package com.huaqi.zhanxin.controller;
 
 import com.huaqi.zhanxin.entity.RestControllerHelper;
 import com.huaqi.zhanxin.entity.PsychologyBean;
-import com.huaqi.zhanxin.entity.UserBean;
-import com.huaqi.zhanxin.entity.UserInfo;
-import com.huaqi.zhanxin.mapper.PsychologyMapper;
 import com.huaqi.zhanxin.service.PsychologyService;
 import com.huaqi.zhanxin.tools.GetInformationFromRequest;
-import com.huaqi.zhanxin.tools.JwtConfig;
 import io.swagger.annotations.*;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +100,8 @@ public class PsychologyController {
 
     @ApiOperation(value = "计算并返回心理测评结果")
     @PostMapping("getScore")
-    public Map<String, Object> getScore(HttpServletRequest request, int totalScore, int score1, int score2, int score3, int score4, int score5){
+    public Map<String, Object> getScore(HttpServletRequest request, int totalScore, int score1, int score2,
+                                        int score3, int score4, int score5){
         //score1:openness顺序依次后推
         Map<String, Object> map = new HashMap<>();
         GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
@@ -120,7 +113,8 @@ public class PsychologyController {
         }
         Timestamp currentTIme = new Timestamp(System.currentTimeMillis());
 
-        int result = psychologyService.recordScore(userID,currentTIme,score1,score2,score3,score4,score5,totalScore);
+        int result = psychologyService.recordScore(userID, currentTIme, score1, score2, score3, score4,
+                score5, totalScore);
 
 
         map.put("computeResult", result);

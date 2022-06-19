@@ -11,19 +11,19 @@ import java.util.Map;
 
 @Component
 public class JwtConfig {
-    private static final String SING="!Qwejhcnisdi";
+    private static final String SING = "!Qwejhcnisdi";
 
     /**
      生成token
      */
-    public static String getToken(Map<String,String> map){
+    public static String getToken(Map<String, String> map) {
         Calendar instance = Calendar.getInstance();
-        instance.add(Calendar.DATE,1);
+        instance.add(Calendar.DATE, 1);
 
         JWTCreator.Builder builder = JWT.create();
 
-        map.forEach((k,v)->{
-            builder.withClaim(k,v);
+        map.forEach((k, v) -> {
+            builder.withClaim(k, v);
         });
 
         String token = builder.withExpiresAt(instance.getTime())
@@ -32,7 +32,7 @@ public class JwtConfig {
         return token;
     }
 
-    public static DecodedJWT verify(String token){
+    public static DecodedJWT verify(String token) {
         DecodedJWT temp = JWT.require(Algorithm.HMAC256(SING)).build().verify(token);
         return temp;
     }

@@ -13,7 +13,7 @@ public class InviteCode {
     private String invitedCode;
     private Timestamp submitTime;
 
-    public InviteCode(Integer userID, String inviteCode,  Timestamp submitTime,String invitedCode) {
+    public InviteCode(Integer userID, String inviteCode,  Timestamp submitTime, String invitedCode) {
         this.userID = userID;
         this.inviteCode = inviteCode;
         this.invitedCode = invitedCode;

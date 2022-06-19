@@ -1,7 +1,6 @@
 package com.huaqi.zhanxin.entity;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.models.auth.In;
 import lombok.Data;
 
 import java.sql.Timestamp;

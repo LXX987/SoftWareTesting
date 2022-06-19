@@ -5,14 +5,11 @@ import com.huaqi.zhanxin.service.AssetService;
 import com.huaqi.zhanxin.service.BankService;
 import com.huaqi.zhanxin.service.CreditService;
 import com.huaqi.zhanxin.service.UserService;
-import com.huaqi.zhanxin.tools.GetInformationFromRequest;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -41,12 +38,12 @@ public class BankController {
 
     @ApiOperation(value = "用户列表")
     @PostMapping("bankSearchID")
-    public List<BankSearch> bankSearchID(int userID,String userName) {
+    public List<BankSearch> bankSearchID(int userID, String userName) {
         if (StringUtils.isEmpty(userID)) {
-            userID=0;
+            userID = 0;
         }
-        List<BankSearch> searchIDList=bankService.bankSearchID(userID);
-        List<BankSearch> searchNameList=bankService.bankSearchName(userName);
+        List<BankSearch> searchIDList = bankService.bankSearchID(userID);
+        List<BankSearch> searchNameList = bankService.bankSearchName(userName);
         List<BankSearch> listAll = new ArrayList<BankSearch>();
         listAll.addAll(searchIDList);
         listAll.addAll(searchNameList);
@@ -61,7 +58,7 @@ public class BankController {
         UserBean user = userService.selectName(userID);
         map.put("userName", user.getUserName());
         map.put("userEmail", user.getUserEmail());
-        UserInfo userInfo=userService.getInfo(userID);
+        UserInfo userInfo = userService.getInfo(userID);
         map.put("user_id", userInfo.getUserID());
         map.put("occupation", userInfo.getOccupation());
         map.put("annual_income", userInfo.getAnnualIncome());
@@ -71,13 +68,13 @@ public class BankController {
         map.put("IDcard", userInfo.getIDcard());
         map.put("phone", userInfo.getPhone());
         // 判断成年
-        String Idcard=userInfo.getIDcard();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//定义格式，不显示毫秒
-        Timestamp now = new Timestamp(System.currentTimeMillis());//获取系统当前时间
+        String Idcard = userInfo.getIDcard();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //定义格式，不显示毫秒
+        Timestamp now = new Timestamp(System.currentTimeMillis()); //获取系统当前时间
         String nowTime = df.format(now);
-        nowTime = nowTime.substring(0,4) + nowTime.substring(5, 7) + nowTime.substring(8, 10);
+        nowTime = nowTime.substring(0, 4) + nowTime.substring(5, 7) + nowTime.substring(8, 10);
         int age = (Integer.parseInt(nowTime) - Integer.parseInt(Idcard.substring(6, 14))) / 10000;
-        if(age<18) {
+        if (age < 18) {
             map.put("adult", "未成年");
         } else {
             map.put("adult", "成年");
@@ -88,7 +85,7 @@ public class BankController {
         map.put("contribution", honestyProof.getContribution());
         map.put("criminal", honestyProof.getCriminal());
         map.put("phoneCost", honestyProof.getPhoneCost());
-        CreditRecord creditRecord=userService.selectCreditRecord(userID);
+        CreditRecord creditRecord = userService.selectCreditRecord(userID);
         map.put("DebtRatio", creditRecord.getDebtRatio());
         map.put("numberRealEstateLoansOrLines", creditRecord.getNumberRealEstateLoansOrLines());
         map.put("numberOfOpenCreditLinesAndLoans", creditRecord.getNumberOfOpenCreditLinesAndLoans());
@@ -106,11 +103,10 @@ public class BankController {
         map.put("credit_score", credit.getCreditScore());
         map.put("behavior_score", credit.getBehaviorScore());
         map.put("social_score", credit.getSocialScore());
-        int money=assetService.getMoney(userID);
+        int money = assetService.getMoney(userID);
         map.put("money", money);
         helper.setMsg("Success");
         helper.setData(map);
         return helper.toJsonMap();
-
     }
 }

@@ -1,22 +1,12 @@
 package com.huaqi.zhanxin.controller;
 
 import com.huaqi.zhanxin.entity.*;
-import com.huaqi.zhanxin.mapper.SystemMessageMapper;
-import com.huaqi.zhanxin.service.PsychologyService;
 import com.huaqi.zhanxin.service.SystemMessageService;
-import com.huaqi.zhanxin.tools.GetInformationFromRequest;
-import com.huaqi.zhanxin.tools.JwtConfig;
 import io.swagger.annotations.*;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +22,7 @@ public class SystemMessageController {
 
     @ApiOperation(value = "发布信息")
     @PostMapping("releaseMessage")
-    public Map<String, Object> releaseSystemMessage(String messageTitle, String messageContent){
+    public Map<String, Object> releaseSystemMessage(String messageTitle, String messageContent) {
         Map<String, Object> map = new HashMap<>();
         Timestamp currentTIme = new Timestamp(System.currentTimeMillis());
         int result = systemMessageService.insetSystemMessage(messageTitle, messageContent, currentTIme);

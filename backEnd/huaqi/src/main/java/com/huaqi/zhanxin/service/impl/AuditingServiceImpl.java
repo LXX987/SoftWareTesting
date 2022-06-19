@@ -16,12 +16,12 @@ public class AuditingServiceImpl implements AuditingService {
     AuditingMapper auditingMapper;
 
     @Override
-    public List<JSONObject> getCertificateList(String type, Integer pageNum, Integer pageSize)
-    {
+    public List<JSONObject> getCertificateList(String type, Integer pageNum, Integer pageSize) {
         List<JSONObject> jsonObjects = new ArrayList<>();
         List<AssetVerification> assetVerificationList = auditingMapper.selectAllByType(type, pageNum, pageSize);
-        if(assetVerificationList.isEmpty())
+        if (assetVerificationList.isEmpty()) {
             return null;
+        }
         for (var assetVerification:assetVerificationList) {
             JSONObject jsonObject = new JSONObject(assetVerification);
             jsonObjects.add(jsonObject);
@@ -30,14 +30,14 @@ public class AuditingServiceImpl implements AuditingService {
     }
 
     @Override
-    public Integer examineCertificate(Integer id, Integer state, Integer num, String type)
-    {
+    public Integer examineCertificate(Integer id, Integer state, Integer num, String type) {
         Integer count = auditingMapper.updateStateById(id, state);
-        if(count == 1) {
+        if (count == 1) {
             Integer user_id = auditingMapper.selectUserIdById(id);
             auditingMapper.updateReputation(user_id, num, type);
             return 1;
+        } else {
+            return -1;
         }
-        else return -1;
     }
 }
