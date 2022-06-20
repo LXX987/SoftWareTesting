@@ -36,6 +36,46 @@ public class FriendControllerTest {
     }
 
     @Test
+    void getFriendList1() {
+        MvcResult mvcResult = null;
+        request.addParameter("userId", "999"); //直接添加request参数，相当简单
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/user/friends")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .param("pageNum","1")
+                            .param("pageSize","10")
+                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIxMzIyM0AxMjYuY29tIiwiZXhwIjoxNjU1ODE2ODA5LCJ1c2VySWQiOiI1In0.IxQNyYxDKULQUsJ0DlJxETPESVibJQ60m2YHZLbIcS8"))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+            log.info(mvcResult.getResponse().getContentAsString());
+            Thread.sleep(10*1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void getFriendList2() {
+        MvcResult mvcResult = null;
+        request.addParameter("userId", ""); //直接添加request参数，相当简单
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/user/friends")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .param("pageNum","1")
+                            .param("pageSize","10")
+                            .header("token",""))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+            log.info(mvcResult.getResponse().getContentAsString());
+            Thread.sleep(10*1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     void getFriendList3() {
         MvcResult mvcResult = null;
         request.addParameter("userId", "1"); //直接添加request参数，相当简单
@@ -94,6 +134,42 @@ public class FriendControllerTest {
     }
 
     @Test
+    void getMyCode1() {
+        MvcResult mvcResult = null;
+        request.addParameter("userId", "999"); //直接添加request参数，相当简单
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/user/codes")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIxMzIyM0AxMjYuY29tIiwiZXhwIjoxNjU1ODE2ODA5LCJ1c2VySWQiOiI1In0.IxQNyYxDKULQUsJ0DlJxETPESVibJQ60m2YHZLbIcS8"))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+            log.info(mvcResult.getResponse().getContentAsString());
+            Thread.sleep(10*1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void getMyCode2() {
+        MvcResult mvcResult = null;
+        request.addParameter("userId", ""); //直接添加request参数，相当简单
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/user/codes")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .header("token",""))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+            log.info(mvcResult.getResponse().getContentAsString());
+            Thread.sleep(10*1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     void getMyCode3() {
         MvcResult mvcResult = null;
         request.addParameter("userId", "1"); //直接添加request参数，相当简单
@@ -119,6 +195,44 @@ public class FriendControllerTest {
             mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/user/codes")
                             .accept(MediaType.APPLICATION_JSON)
                             .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIxMjNAcXEuY29tIiwiZXhwIjoxNjU1ODE3MzkyLCJ1c2VySWQiOiIxIn0.G0VQSigkpVnuVzvN_Xq-PePUf2O6cIeBxSu0nLJCKZs"))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+            log.info(mvcResult.getResponse().getContentAsString());
+            Thread.sleep(10*1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void deleteFriend1() {
+        MvcResult mvcResult = null;
+        request.addParameter("userId", "999"); //直接添加request参数，相当简单
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders.delete("/user/friends")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .param("friend_id","1")
+                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIxMzIyM0AxMjYuY29tIiwiZXhwIjoxNjU1ODE2ODA5LCJ1c2VySWQiOiI1In0.IxQNyYxDKULQUsJ0DlJxETPESVibJQ60m2YHZLbIcS8"))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+            log.info(mvcResult.getResponse().getContentAsString());
+            Thread.sleep(10*1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void deleteFriend2() {
+        MvcResult mvcResult = null;
+        request.addParameter("userId", ""); //直接添加request参数，相当简单
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders.delete("/user/friends")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .param("friend_id","1")
+                            .header("token",""))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo(MockMvcResultHandlers.print())
                     .andReturn();
@@ -187,6 +301,42 @@ public class FriendControllerTest {
     }
 
     @Test
+    void generate1() {
+        MvcResult mvcResult = null;
+        request.addParameter("userId", "999"); //直接添加request参数，相当简单
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/InviteCode/generareCode")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIxMzIyM0AxMjYuY29tIiwiZXhwIjoxNjU1ODE2ODA5LCJ1c2VySWQiOiI1In0.IxQNyYxDKULQUsJ0DlJxETPESVibJQ60m2YHZLbIcS8"))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+            log.info(mvcResult.getResponse().getContentAsString());
+            Thread.sleep(10*1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void generate2() {
+        MvcResult mvcResult = null;
+        request.addParameter("userId", ""); //直接添加request参数，相当简单
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/InviteCode/generareCode")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .header("token",""))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+            log.info(mvcResult.getResponse().getContentAsString());
+            Thread.sleep(10*1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     void generate3() {
         MvcResult mvcResult = null;
         request.addParameter("userId", "1"); //直接添加request参数，相当简单
@@ -212,6 +362,44 @@ public class FriendControllerTest {
             mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/InviteCode/generareCode")
                             .accept(MediaType.APPLICATION_JSON)
                             .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIxMjNAcXEuY29tIiwiZXhwIjoxNjU1ODE3MzkyLCJ1c2VySWQiOiIxIn0.G0VQSigkpVnuVzvN_Xq-PePUf2O6cIeBxSu0nLJCKZs"))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+            log.info(mvcResult.getResponse().getContentAsString());
+            Thread.sleep(10*1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void friendCode1() {
+        MvcResult mvcResult = null;
+        request.addParameter("userId", "999"); //直接添加request参数，相当简单
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/InviteCode/friendCode")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .param("invitedCode","7RP56M")
+                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIxMjNAcXEuY29tIiwiZXhwIjoxNjU1ODE3MzkyLCJ1c2VySWQiOiIxIn0.G0VQSigkpVnuVzvN_Xq-PePUf2O6cIeBxSu0nLJCKZs"))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+            log.info(mvcResult.getResponse().getContentAsString());
+            Thread.sleep(10*1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void friendCode2() {
+        MvcResult mvcResult = null;
+        request.addParameter("userId", ""); //直接添加request参数，相当简单
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/InviteCode/friendCode")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .param("invitedCode","7RP56M")
+                            .header("token",""))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo(MockMvcResultHandlers.print())
                     .andReturn();
