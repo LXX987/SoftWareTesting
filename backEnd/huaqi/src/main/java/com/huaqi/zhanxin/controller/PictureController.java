@@ -283,6 +283,55 @@ public class PictureController {
         }
     }
 
+    @ApiOperation(value="上传资产证明")
+    @ResponseBody
+    @PostMapping("uploadBank")
+    public Map<String, Object> uploadBank(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+
+        Map<String, Object> map = new HashMap<>();
+        GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
+        int userID = getInfo.getUserId();
+
+        if(file.isEmpty()){
+            map.put("success", "0");
+            map.put("file", "上传文件为空！");
+            helper.setMsg("Success");
+            helper.setData(map);
+            return helper.toJsonMap();
+        }
+        try {
+            String result = pictureService.uploadFile(userID,file,"bank",request);
+            LOGGER.info(result);
+            if (result.equals("-1")) {
+                map.put("success", "0");
+                map.put("file", "上传失败！");
+                helper.setMsg("Failed");
+                helper.setData(map);
+                return helper.toJsonMap();
+            } else if (result.equals("-2")) {
+                map.put("success", "0");
+                map.put("file", "文件类型错误！");
+                helper.setMsg("Failed");
+                helper.setData(map);
+                return helper.toJsonMap();
+            } else {
+                map.put("success", "1");
+                map.put("file", "上传文件成功！");
+                helper.setMsg("Success");
+                helper.setData(map);
+                return helper.toJsonMap();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("文件上传失败！");
+            map.put("success", "0");
+            map.put("file", "上传文件失败！");
+            helper.setMsg("Failed");
+            helper.setData(map);
+            return helper.toJsonMap();
+        }
+    }
+
     @ApiOperation(value = "获取犯罪记录审核情况")
     @GetMapping("getCrime")
     public Map<String, Object> getCrime(HttpServletRequest request) {
@@ -428,7 +477,7 @@ public class PictureController {
         return helper.toJsonMap();
     }
 
-    @ApiOperation(value = "获取话费记录审核情况")
+    @ApiOperation(value = "获取资产记录审核情况")
     @GetMapping("getBank")
     public Map<String, Object> getBank(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
