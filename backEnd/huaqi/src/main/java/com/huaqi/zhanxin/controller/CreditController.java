@@ -33,7 +33,7 @@ public class CreditController {
     public Map<String, Object> getUserId(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         // token信息获取用户ID
-        if(request==null){
+        if (request == null) {
             helper.setMsg("Failed;用户信息不能为空");
             helper.setData(map);
             return helper.toJsonMap();
@@ -42,7 +42,7 @@ public class CreditController {
         int userID = getInfo.getUserId();
         //int userID=1;
         Credit credit = creditService.selectScore(userID);
-        if(credit==null){
+        if (credit == null) {
             helper.setMsg("Failed;该用户没有评分记录");
             helper.setData(map);
             return helper.toJsonMap();
@@ -54,7 +54,7 @@ public class CreditController {
 
         //从history_score中获取当前分数，并将分数返回到前端
         HistoryScore currentCredit = userService.selectUserCredit(userID);
-        if(currentCredit==null){
+        if (currentCredit == null) {
             helper.setMsg("Failed;该用户没有评分记录");
             helper.setData(map);
             return helper.toJsonMap();
