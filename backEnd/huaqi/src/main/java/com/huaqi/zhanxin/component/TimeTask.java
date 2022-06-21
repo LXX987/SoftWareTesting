@@ -27,7 +27,7 @@ public class TimeTask {
     @Resource
     private CreditController creditController;
 
-    @Scheduled(cron = "0 */2 * * * ?")
+    @Scheduled(cron = "0 0 23 L * ?") // 每月最后一天23点执行一次
     //0 0 12 ? * WED    表示每个星期三中午12点执行
     public void execute() {
         // SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //设置日期格式

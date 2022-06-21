@@ -38,8 +38,6 @@ public class AssetController {
     public List<Asset> userList(HttpServletRequest request) {
         GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
         int userID = getInfo.getUserId();
-        List<Asset> assetList = assetService.assetList(userID);
-
         return assetService.assetList(userID);
     }
 

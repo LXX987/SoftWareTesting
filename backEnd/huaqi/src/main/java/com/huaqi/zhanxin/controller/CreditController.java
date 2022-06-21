@@ -26,16 +26,26 @@ public class CreditController {
     @Autowired
     private UserService userService;
     RestControllerHelper helper = new RestControllerHelper();
+
     @ApiOperation(value = "获取信用信息")
     @GetMapping("userCredit")
     public Map<String, Object> getUserId(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         // token信息获取用户ID
+        if(request==null){
+            helper.setMsg("Failed;用户信息不能为空");
+            helper.setData(map);
+            return helper.toJsonMap();
+        }
         GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
         int userID = getInfo.getUserId();
         //int userID=1;
         Credit credit = creditService.selectScore(userID);
-
+        if(credit==null){
+            helper.setMsg("Failed;该用户没有评分记录");
+            helper.setData(map);
+            return helper.toJsonMap();
+        }
         // 计算并更新总分
         int score = calculateCredit(credit.getIdentityScore(), credit.getAssetScore(), credit.getCreditScore(),
                 credit.getBehaviorScore(), credit.getSocialScore());
@@ -43,6 +53,11 @@ public class CreditController {
 
         //从history_score中获取当前分数，并将分数返回到前端
         HistoryScore currentCredit = userService.selectUserCredit(userID);
+        if(currentCredit==null){
+            helper.setMsg("Failed;该用户没有评分记录");
+            helper.setData(map);
+            return helper.toJsonMap();
+        }
         map.put("total_score", currentCredit.getTotalScore());
         map.put("identity_score", currentCredit.getIdentityScore());
         map.put("asset_score", currentCredit.getAssetScore());
@@ -72,7 +87,6 @@ public class CreditController {
         Map<String, Object> map = new HashMap<>();
         // 计算信用分数各区间人数占比,最大最小，平均值
         List<Credit> creditList = creditService.getAllCredit();
-//        System.out.println(creditList.get(0).getTotalScore());
         double totalScoreSum = 0;
         int maxCredit = creditList.get(0).getTotalScore();
         int minCredit = creditList.get(0).getTotalScore();

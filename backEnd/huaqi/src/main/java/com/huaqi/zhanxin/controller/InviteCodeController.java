@@ -70,10 +70,16 @@ public class InviteCodeController {
             map.put("msg", "关键数据缺失");
             return map;
         }
+        if(inviteCodeService.searchCode(invitedCode)!=null)
+        {
+            inviteCodeService.insertFriend(userId, invitedCode, currentTIme);
+            map.put("msg", "提交成功！");
+            helper.setMsg("Success");
+        }else {
+            map.put("msg", "该邀请码不存在！");
+            helper.setMsg("Failed");
+        }
 
-        inviteCodeService.insertFriend(userId, invitedCode, currentTIme);
-        map.put("msg", "提交成功！");
-        helper.setMsg("Success");
         helper.setData(map);
         return helper.toJsonMap();
     }
