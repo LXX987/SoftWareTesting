@@ -428,6 +428,35 @@ public class PictureController {
         return helper.toJsonMap();
     }
 
+    @ApiOperation(value = "获取话费记录审核情况")
+    @GetMapping("getBank")
+    public Map<String, Object> getBank(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
+        int userID = getInfo.getUserId();
+        //int userID =1;
+        List<Picture> phoneCostPicList = pictureService.getBank(userID);
+        if(CollectionUtils.isEmpty(phoneCostPicList)) {
+            map.put("picState", "暂无数据");
+        } else {
+            int t = 0;
+            int t1 = 0;
+            int max = 0;
+            for (int i = 0; i < phoneCostPicList.size(); i++) {
+                t1 = phoneCostPicList.get(i).getPicID();
+                if(t <= t1) {
+                    t = t1;
+                    max = i;
+                }
+            }
+            Picture phoneCostPic = phoneCostPicList.get(max);
+            map.put("picState", phoneCostPic.getState());
+        }
+        helper.setMsg("Success");
+        helper.setData(map);
+        return helper.toJsonMap();
+    }
+
 
     @ApiOperation(value = "获取未审核信息")
     @GetMapping("getPictureList")
