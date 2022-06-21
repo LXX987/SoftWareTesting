@@ -33,6 +33,9 @@ public class FriendController {
         Integer id = tokenInfo.getUserId();
         //Integer id = 1;
         int friendNum = 0;
+        if(pageNum<=0||pageSize<=0){
+            return Result.error ("200", "pageNum必须为正数");
+        }
         List<JSONObject> jsonObjects = friendService.getFriendList(id, pageNum, pageSize);
         if (jsonObjects == null) {
             return Result.error ("404", "暂无好友");
@@ -56,11 +59,11 @@ public class FriendController {
         int score = (int) socialScore;
         return score;
     }
-    @ApiOperation(value = "添加好友")
-    @RequestMapping(value = "/friends", method = RequestMethod.POST)
-    public Result<?> sendFriendRequest() {
-        return Result.success();
-    }
+//    @ApiOperation(value = "添加好友")
+//    @RequestMapping(value = "/friends", method = RequestMethod.POST)
+//    public Result<?> sendFriendRequest() {
+//        return Result.success();
+//    }
 
     @ApiOperation(value = "获取我的邀请码")
     @RequestMapping(value = "/codes", method = RequestMethod.GET)

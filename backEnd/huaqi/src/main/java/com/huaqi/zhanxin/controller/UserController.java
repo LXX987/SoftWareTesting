@@ -101,7 +101,7 @@ public class UserController {
                     Cookie cookie = new Cookie("JSESSIONID", URLEncoder.encode(session.getId(),
                             StandardCharsets.UTF_8));
                     cookie.setPath(request.getContextPath());
-                    cookie.setMaxAge(48 * 60 * 60); //设置cookie有效期为2天
+                    cookie.setMaxAge(480 * 60 * 60); //设置cookie有效期为2天
                     response.addCookie(cookie);
                 } catch (Exception e) {
                     map.put("msg", e.getMessage());
