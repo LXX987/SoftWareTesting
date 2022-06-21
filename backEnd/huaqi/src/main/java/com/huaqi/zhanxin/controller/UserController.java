@@ -34,6 +34,9 @@ import java.util.*;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
@@ -74,8 +77,13 @@ public class UserController {
 
     @ApiOperation(value = "登录")
     @PostMapping("login")
-    public Map<String, Object> login(String userEmail, String userPassword, Integer userType,
-                                     HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> login(String userEmail, String userPassword, Integer userType) {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+        HttpServletResponse response = ((ServletRequestAttributes) requestAttributes).getResponse();
+        System.out.println(request);
+        System.out.println(response);
+        System.out.println("tests");
         Map<String, Object> map = new HashMap<>();
         if (StringUtils.isEmpty(userEmail)) {
             map.put("msg", "关键数据缺失");
@@ -241,17 +249,21 @@ public class UserController {
 
     @ApiOperation(value = "注册")
     @PostMapping("registerUser")
-    public Map<String, Object> register(String userEmail, String userPwd, int userType){
+    public Map<String, Object> register(String userEmail, String userPwd) {
         Map<String, Object> map = new HashMap<>();
 
-        if (StringUtils.isEmpty(userEmail) || StringUtils.isEmpty(userPwd)) {
-            map.put("msg", "关键数据缺失");
+        if (StringUtils.isEmpty(userEmail)) {
+            map.put("msg", "账户邮箱不能为空");
+            return map;
+        }
+        if (StringUtils.isEmpty(userPwd)) {
+            map.put("msg", "账户密码不能为空");
             return map;
         }
         UserBean user = userService.login(userEmail);
         if (user == null) {
             LocalDateTime localDateTime = LocalDateTime.now();
-            userService.register(userEmail, userPwd, userType, localDateTime);
+            userService.register(userEmail, userPwd, 0, localDateTime);
             map.put("msg", "注册成功");
             helper.setMsg("Success");
             helper.setData(map);
@@ -272,8 +284,7 @@ public class UserController {
             userService.insertHistoryRecord(user_id, 0, currentTIme, 0, 0,
                     0, 0, 0);
             return helper.toJsonMap();
-        }
-        else{
+        } else {
             map.put("msg", "该账号已存在");
             helper.setMsg("Fail");
             helper.setData(map);
@@ -284,7 +295,6 @@ public class UserController {
     @ApiOperation(value = "更新实名信息")
     @PostMapping("updateAuthentication")
     public Map<String, Object> updateAuthentication(HttpServletRequest request, String userName,int IDtype, String IDcard) throws IOException{
-
         GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
         int userID = getInfo.getUserId();
         //int userID =1;
@@ -302,7 +312,7 @@ public class UserController {
         //String result ="{\"msg\":\"成功\",\"success\":true,\"code\":200,\"data\":{\"result\":0,\"order_no\":\"654645355292741231\",\"desc\":\"一致\",\"sex\":\"女\",\"birthday\":\"20001118\",\"address\":\"甘肃省兰州市七里河区\"}}";
         System.out.println("result:" + result);
         int resultNum;
-        if(result == null){
+        if(result == null) {
             resultNum = 3;
         } else {
             resultNum = Integer.parseInt(result);
@@ -315,8 +325,7 @@ public class UserController {
             int sqlResult = userService.updateAuthentication(userID, authentication, IDtype, IDcard);
             if(sqlResult == 1) {
                 UserInfo userInfo=userService.getInfo(userID);
-                if(userInfo.getAuthentication())
-                {
+                if(userInfo.getAuthentication()) {
                     int indentityScore = calculateIdentity(userInfo.getOccupation(),userInfo.getAnnualIncome(),userInfo.getWorkingYears());
                     creditService.updateIdentityScore(indentityScore,userID);
                 }
@@ -660,8 +669,8 @@ public class UserController {
             helper.setMsg("Fail");
             helper.setData(map);
             return helper.toJsonMap();
-        } else{
-            userService.changePwd(newPwd,userID);
+        } else {
+            userService.changePwd(newPwd, userID);
             map.put("msg", "修改密码成功");
             helper.setMsg("Success");
             helper.setData(map);

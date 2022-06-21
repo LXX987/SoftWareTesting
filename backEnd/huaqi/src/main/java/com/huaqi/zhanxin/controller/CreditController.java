@@ -26,6 +26,7 @@ public class CreditController {
     @Autowired
     private UserService userService;
     RestControllerHelper helper = new RestControllerHelper();
+
     @ApiOperation(value = "获取信用信息")
     @GetMapping("userCredit")
     public Map<String, Object> getUserId(HttpServletRequest request) {
@@ -86,7 +87,6 @@ public class CreditController {
         Map<String, Object> map = new HashMap<>();
         // 计算信用分数各区间人数占比,最大最小，平均值
         List<Credit> creditList = creditService.getAllCredit();
-//        System.out.println(creditList.get(0).getTotalScore());
         double totalScoreSum = 0;
         int maxCredit = creditList.get(0).getTotalScore();
         int minCredit = creditList.get(0).getTotalScore();
