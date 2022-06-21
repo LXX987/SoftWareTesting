@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,14 +45,20 @@ public class AssetController {
 
     @ApiOperation(value = "插入银行账户")
     @PostMapping("insertAsset")
-    public Map<String, Object> insertAsset(HttpServletRequest request, String bank, int money) {
+    public Map<String, Object> insertAsset(HttpServletRequest request, String bank,@RequestParam(value = "money", defaultValue = "-1")  int money) {
         GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
         int userID = getInfo.getUserId();
         Map<String, Object> map = new HashMap<>();
-        if (StringUtils.isEmpty(bank) || StringUtils.isEmpty(money)) {
+        if (StringUtils.isEmpty(bank)) {
             map.put("msg", "关键数据缺失");
             return map;
         }
+        //修改
+        if (money<=0) {
+            map.put("msg", "钱数错误");
+            return map;
+        }
+        //修改结束
         Timestamp d = new Timestamp(System.currentTimeMillis());
         System.out.println(d);
         System.out.println(bank);
@@ -70,8 +77,15 @@ public class AssetController {
         GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
         int userID = getInfo.getUserId();
         Map<String, Object> map = new HashMap<>();
+        //修改
+        if (assetService.getMoney(userID)==-1) {
+            map.put("msg", "暂无数据");
+            return map;
+        }
+        // 修改结束
         int money = assetService.getMoney(userID);
         System.out.println(money);
+
 
         // 获取年收入
         UserInfo userInfo = userService.getInfo(userID);
@@ -89,12 +103,23 @@ public class AssetController {
 
     @ApiOperation(value = "删除银行账户")
     @PostMapping("deleteAsset")
-    public Map<String, Object> deleteAsset(HttpServletRequest request, Timestamp addTime) {
+    public Map<String, Object> deleteAsset(HttpServletRequest request, @RequestParam(value = "addTime", defaultValue = "0000-00-00 00:00:00") Timestamp addTime) {
         GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
         int userID = getInfo.getUserId();
         Map<String, Object> map = new HashMap<>();
-        assetService.deleteAsset(userID, addTime);
-        map.put("msg", "删除成功");
+        //修改
+        String strn = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(addTime);
+        if (strn.equals("0000-00-00 00:00:00")) {
+            map.put("msg", "关键数据缺失");
+            return map;
+        }
+        //修改结束
+        int n = assetService.deleteAsset(userID, addTime);
+        if (n==0) {
+            map.put("msg", "数据错误");
+        } else {
+            map.put("msg", "删除成功");
+        }
         helper.setMsg("Success");
         helper.setData(map);
         return helper.toJsonMap();
@@ -102,12 +127,27 @@ public class AssetController {
 
     @ApiOperation(value = "管理银行账户")
     @PostMapping("updateAsset")
-    public Map<String, Object> updateAsset(HttpServletRequest request, String bank, int money, Timestamp addTime) {
+    public Map<String, Object> updateAsset(HttpServletRequest request, String bank, @RequestParam(value = "money", defaultValue = "-1") int money, @RequestParam(value = "addTime", defaultValue = "0000-00-00 00:00:00") Timestamp addTime) {
         GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
         int userID = getInfo.getUserId();
         Map<String, Object> map = new HashMap<>();
-        assetService.updateAsset(userID, bank, money, addTime);
-        map.put("msg", "编辑成功");
+        //修改
+        String strn = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(addTime);
+        if (StringUtils.isEmpty(bank) || strn.equals("0000-00-00 00:00:00")) {
+            map.put("msg", "关键数据缺失");
+            return map;
+        }
+        if (money<=0) {
+            map.put("msg", "钱数错误");
+            return map;
+        }
+        //修改结束
+        int n = assetService.updateAsset(userID, bank, money, addTime);
+        if (n==0) {
+            map.put("msg", "数据错误");
+        } else {
+            map.put("msg", "编辑成功");
+        }
         helper.setMsg("Success");
         helper.setData(map);
         return helper.toJsonMap();

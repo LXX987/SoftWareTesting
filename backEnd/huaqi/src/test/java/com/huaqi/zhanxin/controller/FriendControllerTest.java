@@ -134,6 +134,46 @@ public class FriendControllerTest {
     }
 
     @Test
+    void getFriendList6() {
+        MvcResult mvcResult = null;
+        request.addParameter("userId", "1"); //直接添加request参数，相当简单
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/user/friends")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .param("pageNum","0")
+                            .param("pageSize","10")
+                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIxMjNAcXEuY29tIiwiZXhwIjoxNjU1ODE3MzkyLCJ1c2VySWQiOiIxIn0.G0VQSigkpVnuVzvN_Xq-PePUf2O6cIeBxSu0nLJCKZs"))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+            log.info(mvcResult.getResponse().getContentAsString());
+            Thread.sleep(10*1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void getFriendList7() {
+        MvcResult mvcResult = null;
+        request.addParameter("userId", "1"); //直接添加request参数，相当简单
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/user/friends")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .param("pageNum","1")
+                            .param("pageSize","-1")
+                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIxMjNAcXEuY29tIiwiZXhwIjoxNjU1ODE3MzkyLCJ1c2VySWQiOiIxIn0.G0VQSigkpVnuVzvN_Xq-PePUf2O6cIeBxSu0nLJCKZs"))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+            log.info(mvcResult.getResponse().getContentAsString());
+            Thread.sleep(10*1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     void getMyCode1() {
         MvcResult mvcResult = null;
         request.addParameter("userId", "999"); //直接添加request参数，相当简单

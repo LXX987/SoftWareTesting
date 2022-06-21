@@ -26,7 +26,12 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public int getMoney(int userID) {
-        return assetMapper.getMoney(userID);
+        try {
+            return assetMapper.getMoney(userID);
+        } catch(Exception e) {
+            return -1;
+        }
+
     }
 
     @Override
