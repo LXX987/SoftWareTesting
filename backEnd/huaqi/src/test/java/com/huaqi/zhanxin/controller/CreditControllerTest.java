@@ -125,7 +125,8 @@ public class CreditControllerTest {
         log.info(CASE_NUM);
         try {
             MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/credit/getAllCredit")
-                            .accept(MediaType.APPLICATION_JSON))
+                            .accept(MediaType.APPLICATION_JSON)
+                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIyNTkwMTY4NDExQHFxLmNvbSIsImV4cCI6MTY1NTg4NDQzOSwidXNlcklkIjoiMiJ9.qUI-6xl_CNslfoSPxqjiKkvCr7kZcWXyx75c1-KsxnM"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo(MockMvcResultHandlers.print())
                     .andReturn();
@@ -142,7 +143,8 @@ public class CreditControllerTest {
         log.info(CASE_NUM);
         try {
             MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/credit/getAllCredit")
-                            .accept(MediaType.APPLICATION_JSON))
+                            .accept(MediaType.APPLICATION_JSON)
+                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIyNTkwMTY4NDExQHFxLmNvbSIsImV4cCI6MTY1NTg4NDQzOSwidXNlcklkIjoiMiJ9.qUI-6xl_CNslfoSPxqjiKkvCr7kZcWXyx75c1-KsxnM"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo(MockMvcResultHandlers.print())
                     .andReturn();
@@ -159,7 +161,8 @@ public class CreditControllerTest {
         log.info(CASE_NUM);
         try {
             MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/credit/getAllCredit")
-                            .accept(MediaType.APPLICATION_JSON))
+                            .accept(MediaType.APPLICATION_JSON)
+                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIyNTkwMTY4NDExQHFxLmNvbSIsImV4cCI6MTY1NTkxMTg4MCwidXNlcklkIjoiMiJ9.3rFFb1fBkGkCmoWU_AiqqJ6vFpTE6bzfM6XwMYWn3ic"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo(MockMvcResultHandlers.print())
                     .andReturn();
@@ -176,7 +179,8 @@ public class CreditControllerTest {
         log.info(CASE_NUM);
         try {
             MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/credit/getAllCredit")
-                            .accept(MediaType.APPLICATION_JSON))
+                            .accept(MediaType.APPLICATION_JSON)
+                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIyNTkwMTY4NDExQHFxLmNvbSIsImV4cCI6MTY1NTg4NDQzOSwidXNlcklkIjoiMiJ9.qUI-6xl_CNslfoSPxqjiKkvCr7kZcWXyx75c1-KsxnM"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo(MockMvcResultHandlers.print())
                     .andReturn();

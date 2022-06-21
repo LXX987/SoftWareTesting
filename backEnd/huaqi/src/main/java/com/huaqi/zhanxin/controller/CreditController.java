@@ -3,6 +3,7 @@ package com.huaqi.zhanxin.controller;
 import com.huaqi.zhanxin.entity.Credit;
 import com.huaqi.zhanxin.entity.HistoryScore;
 import com.huaqi.zhanxin.entity.RestControllerHelper;
+import com.huaqi.zhanxin.entity.UserBean;
 import com.huaqi.zhanxin.service.CreditService;
 import com.huaqi.zhanxin.service.UserService;
 import com.huaqi.zhanxin.tools.GetInformationFromRequest;
@@ -83,8 +84,18 @@ public class CreditController {
 
     @ApiOperation(value = "获取全部信用分数信息")
     @GetMapping("getAllCredit")
-    public  Map<String, Object> getAllCredit() {
+    public  Map<String, Object> getAllCredit(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
+        GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
+        int userID = getInfo.getUserId();
+        UserBean user = userService.selectName(userID);
+        if (user.getUserType() != 1) {
+            // 不是管理员
+            map.put("msg", "权限不符");
+            helper.setMsg("Failed");
+            helper.setData(map);
+            return helper.toJsonMap();
+        }
         // 计算信用分数各区间人数占比,最大最小，平均值
         List<Credit> creditList = creditService.getAllCredit();
         double totalScoreSum = 0;
