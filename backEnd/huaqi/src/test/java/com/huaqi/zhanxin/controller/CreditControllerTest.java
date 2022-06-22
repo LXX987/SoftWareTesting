@@ -70,7 +70,7 @@ public class CreditControllerTest {
         try {
             MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/credit/userCredit")
                             .accept(MediaType.APPLICATION_JSON)
-                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIyNTkwMTY4NDExQHFxLmNvbSIsImV4cCI6MTY1NTg2NDMyNiwidXNlcklkIjoiMiJ9.waJH04Dhb5NXZLvMYqdCZvlQctS2lxjvPDTMQlI68iw"))
+                            .header("token",""))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo(MockMvcResultHandlers.print())
                     .andReturn();
@@ -89,7 +89,7 @@ public class CreditControllerTest {
         try {
             MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/credit/userCredit")
                             .accept(MediaType.APPLICATION_JSON)
-                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIzNDM0ODM0QDEyNi5jb20iLCJleHAiOjE2NTU4ODQyMzksInVzZXJJZCI6IjgifQ.Nw-VWKPU8T_p5WzMFVVWUTc6mo15DcVUERZ-PTLb9aA"))
+                            .header("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiIxMjM0QDEyMzQuY29tIiwiZXhwIjoxNjU1OTkyMDA0LCJ1c2VySWQiOiIxNyJ9.jylzA2COFT-lRncStVVVfUQlsVkn7bvlvCiSNTd-ihg"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo(MockMvcResultHandlers.print())
                     .andReturn();
